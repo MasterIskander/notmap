@@ -13,18 +13,18 @@ services:
   #   ports:
   #     - "5432:5432"
 
-  backend:
-    build: ./backend
-    depends_on:
-      - db
-    environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: notmap_user
-      DB_PASSWORD: your_password
-      DB_NAME: notmap
-    ports:
-      - "8080:8080"
+  # backend:
+  #   build: ./backend
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+  #     DB_USER: notmap_user
+  #     DB_PASSWORD: your_password
+  #     DB_NAME: notmap
+  #   ports:
+  #     - "8080:8080"
 
   frontend:
     build: ./frontend

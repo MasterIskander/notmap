@@ -1,37 +1,12 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	_ "github.com/lib/pq"
-)
-
-const (
-	host     = "db"
-	port     = 5432
-	user     = "notmap_user"
-	password = "your_password"
-	dbname   = "notmap"
 )
 
 func main() {
-	// Подключение к базе данных
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
-	db, err := sql.Open("postgres", psqlInfo)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	// Инициализация бота
 	botToken := "7277152508:AAGPJuTo-F1288IJYBFdLmxsmm5WB-y6XTk"
 	if botToken == "" {
@@ -53,16 +28,6 @@ func main() {
 
 	for update := range updates {
 		if update.Message == nil { // ignore any non-Message updates
-			continue
-		}
-
-		user := update.Message.From
-		telegramTag := user.UserName
-
-		// Сохранение пользователя в базе данных
-		_, err := db.Exec("INSERT INTO users (telegram_tag) VALUES ($1) ON CONFLICT (telegram_tag) DO NOTHING", telegramTag)
-		if err != nil {
-			log.Printf("Failed to insert user: %v", err)
 			continue
 		}
 
