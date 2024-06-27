@@ -35,4 +35,4 @@ services:
     depends_on:
       - db
     environment:
-      TELEGRAM_BOT_TOKEN: your_telegram_bot_token
+      TELEGRAM_BOT_TOKEN: "7277152508:AAGPJuTo-F1288IJYBFdLmxsmm5WB-y6XTk"
