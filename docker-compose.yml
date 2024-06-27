@@ -1,31 +1,6 @@
 version: '3.8'
 
 services:
-  # db:
-  #   image: postgres:13
-  #   environment:
-  #     POSTGRES_DB: notmap
-  #     POSTGRES_USER: notmap_user
-  #     POSTGRES_PASSWORD: your_password
-  #   volumes:
-  #     - ./db/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
-  #     - ./db/init-tables.sql:/docker-entrypoint-initdb.d/init-tables.sql
-  #   ports:
-  #     - "5432:5432"
-
-  # backend:
-  #   build: ./backend
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     DB_HOST: db
-  #     DB_PORT: 5432
-  #     DB_USER: notmap_user
-  #     DB_PASSWORD: your_password
-  #     DB_NAME: notmap
-  #   ports:
-  #     - "8080:8080"
-
   frontend:
     build: ./frontend
     ports:
@@ -33,7 +8,5 @@ services:
 
   bot:
     build: ./bot
-    depends_on:
-      - db
     environment:
       TELEGRAM_BOT_TOKEN: "7277152508:AAGPJuTo-F1288IJYBFdLmxsmm5WB-y6XTk"
