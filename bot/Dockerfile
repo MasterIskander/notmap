@@ -5,6 +5,7 @@ WORKDIR /bot
 COPY . .
 
 RUN go mod init bot
+RUN go mod tidy
 RUN go get -d -v ./...
 RUN go build -o /main
 

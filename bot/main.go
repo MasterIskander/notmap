@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"net/http"
+
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	_ "github.com/lib/pq"
 )
@@ -33,7 +33,7 @@ func main() {
 	}
 
 	// Инициализация бота
-	botToken := "YOUR_TELEGRAM_BOT_TOKEN"
+	botToken := "7277152508:AAGPJuTo-F1288IJYBFdLmxsmm5WB-y6XTk"
 	if botToken == "" {
 		log.Fatal("TELEGRAM_BOT_TOKEN must be set")
 	}
