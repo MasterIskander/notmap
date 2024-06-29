@@ -33,7 +33,7 @@ func main() {
 
 		// Отправка сообщения с кнопкой для открытия веб-приложения
 		webAppURL := "https://notmap.ru"
-		webApp := tgbotapi.NewInlineKeyboardButtonURL("Open NotMap", webAppURL)
+		webApp := tgbotapi.NewInlineKeyboardButtonWebApp("Запустить приложение", tgbotapi.WebAppInfo{URL: webAppURL})
 		row := tgbotapi.NewInlineKeyboardRow(webApp)
 		markup := tgbotapi.NewInlineKeyboardMarkup(row)
 

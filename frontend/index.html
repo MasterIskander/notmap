@@ -3,75 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NotMap</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/simplex-noise@2.4.0/simplex-noise.min.js"></script>
+    <title>Notmap</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 3em;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="menu">
-            <button id="menu-btn">☰</button>
-        </div>
-        <div class="title">Not Map</div>
-        <div class="wallet">
-            <button id="wallet-btn"></button>
-        </div>
-    </header>
-    <main>
-        <div class="balance">
-            <div class="notpoint">
-                <img src="img/coin.png">
-                <span id="notpoint">0</span>
-            </div>
-        </div>
-        <div class="container">
-            <div class="map-container">
-                <div class="map">
-                    <div class="grid">
-                        <!-- Здесь будут клетки -->
-                    </div>
-                </div>
-                <div class="stats">
-                    <div class="stats-text">
-                        <p id="cell-stats">3000 / 3000</p>
-                        <p id="event-count">Events: 0</p>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" id="progress"></div>
-                    </div>
-                </div>
-                <div class="buy-cell">
-                    <div class="btn-group">
-                        <button id="decrease" class="btn group-btn">◀</button>
-                        <span id="cell-count" class="btn group-btn">1</span>
-                        <button id="increase" class="btn group-btn">▶</button>
-                    </div>
-                    <button id="buy-btn" class="btn buy-btn">Buy cell</button>
-                </div>
-            </div>
-            <div class="events hidden" id="events">
-                <h2>Events</h2>
-                <div class="event">
-                    <div class="event-inner">
-                        <img src="goldmine.png" alt="Golden Mine Icon" class="event-icon">
-                        <div class="event-details">
-                            <h3>Goldmine</h3>
-                            <p>Reward Pool &#183; <span id="total-notpoint">100000</span></p>
-                            <p>Income &#183; <span id="available-notpoint">200</span></p>
-                            <button id="claim-btn" class="claim-btn btn">Claim</button>
-                            <span id="timer" class="hidden">00:10</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    <nav>
-        <button>MAP</button>
-        <button>POOL</button>
-        <button>FRENS</button>
-        <button>EVENTS</button>
-    </nav>
-    <script src="script.js"></script>
+    <h1>Welcome to Notmap</h1>
 </body>
 </html>
