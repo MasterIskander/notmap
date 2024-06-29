@@ -2,13 +2,14 @@ package main
 
 import (
 	"log"
+	"os"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 func main() {
 	// Инициализация бота
-	botToken := "7277152508:AAGPJuTo-F1288IJYBFdLmxsmm5WB-y6XTk"
+	botToken := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if botToken == "" {
 		log.Fatal("TELEGRAM_BOT_TOKEN must be set")
 	}
@@ -31,17 +32,21 @@ func main() {
 			continue
 		}
 
-		// Отправка сообщения с кнопкой для открытия веб-приложения
-		webAppURL := "https://notmap.ru"
-		webApp := tgbotapi.NewInlineKeyboardButtonWebApp("Запустить приложение", tgbotapi.WebAppInfo{URL: webAppURL})
-		row := tgbotapi.NewInlineKeyboardRow(webApp)
-		markup := tgbotapi.NewInlineKeyboardMarkup(row)
+		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Welcome to NotMap!\n\nA brief description of the game goes here.")
-		msg.ReplyMarkup = markup
+		if update.Message.Text == "/start" {
+			// Отправка сообщения с кнопкой для открытия веб-приложения
+			webAppURL := "https://notmap.ru"
+			webApp := tgbotapi.NewInlineKeyboardButtonData("Запустить приложение", webAppURL)
+			row := tgbotapi.NewInlineKeyboardRow(webApp)
+			markup := tgbotapi.NewInlineKeyboardMarkup(row)
 
-		if _, err := bot.Send(msg); err != nil {
-			log.Printf("Failed to send message: %v", err)
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Welcome to NotMap!\n\nA brief description of the game goes here.")
+			msg.ReplyMarkup = markup
+
+			if _, err := bot.Send(msg); err != nil {
+				log.Printf("Failed to send message: %v", err)
+			}
 		}
 	}
 }
