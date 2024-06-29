@@ -3,13 +3,12 @@ package main
 import (
 	"log"
 	"os"
-
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 func main() {
 	// Инициализация бота
-	botToken := os.Getenv("TELEGRAM_BOT_TOKEN")
+	botToken := os.Getenv("7277152508:AAGPJuTo-F1288IJYBFdLmxsmm5WB-y6XTk")
 	if botToken == "" {
 		log.Fatal("TELEGRAM_BOT_TOKEN must be set")
 	}
