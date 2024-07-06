@@ -4,9 +4,9 @@ services:
   db:
     image: postgres:13
     environment:
-      POSTGRES_DB: notmap
-      POSTGRES_USER: notmap_user
-      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
@@ -21,7 +21,7 @@ services:
     build:
       context: ./bot
     environment:
-      TELEGRAM_BOT_TOKEN: "7277152508:AAGPJuTo-F1288IJYBFdLmxsmm5WB-y6XTk"
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
     depends_on:
       - db
 
