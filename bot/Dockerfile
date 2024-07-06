@@ -5,7 +5,7 @@ WORKDIR /bot
 COPY . .
 
 RUN go mod init bot
-RUN go get -u github.com/go-telegram-bot-api/telegram-bot-api/v5
+RUN go get -u github.com/matterbridge/telegram-bot-api/v6
 RUN go mod tidy
 RUN go build -o main .
 
