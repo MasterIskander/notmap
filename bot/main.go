@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"net/url"
 	"os"
 
 	tgbotapi "github.com/matterbridge/telegram-bot-api/v6"
@@ -36,9 +38,10 @@ func main() {
 
 		if update.Message.Text == "/start" {
 			// Отправка сообщения с кнопкой для открытия веб-приложения
-			webAppURL := "https://notmap.ru"
-			
-			webAppButton := tgbotapi.NewInlineKeyboardButtonURL("Запустить приложение", webAppURL)
+			username := update.Message.From.UserName
+			webAppURL := fmt.Sprintf("https://notmap.ru?username=%s", url.QueryEscape(username))
+			webAppInfo := tgbotapi.WebAppInfo{URL: webAppURL}
+			webAppButton := tgbotapi.NewInlineKeyboardButtonWebApp("Запустить приложение", webAppInfo)
 
 			row := tgbotapi.NewInlineKeyboardRow(webAppButton)
 			markup := tgbotapi.NewInlineKeyboardMarkup(row)
