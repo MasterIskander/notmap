@@ -1,19 +1,34 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net/url"
 	"os"
 
 	tgbotapi "github.com/matterbridge/telegram-bot-api/v6"
+	_ "github.com/lib/pq"
 )
+
+var db *sql.DB
 
 func main() {
 	// Инициализация бота
 	botToken := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if botToken == "" {
 		log.Fatal("TELEGRAM_BOT_TOKEN must be set")
+	}
+
+	connStr := "user=notmap_user password=your_password dbname=notmap sslmode=disable"
+	var err error
+	db, err = sql.Open("postgres", connStr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err = db.Ping(); err != nil {
+		log.Fatal(err)
 	}
 
 	bot, err := tgbotapi.NewBotAPI(botToken)
@@ -37,8 +52,12 @@ func main() {
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
 		if update.Message.Text == "/start" {
-			// Отправка сообщения с кнопкой для открытия веб-приложения
 			username := update.Message.From.UserName
+			_, err := db.Exec("INSERT INTO users (telegram_user) VALUES ($1) ON CONFLICT (telegram_user) DO NOTHING", username)
+			if err != nil {
+				log.Printf("Failed to insert user: %v", err)
+			}
+
 			webAppURL := fmt.Sprintf("https://notmap.ru?username=%s", url.QueryEscape(username))
 			webAppInfo := tgbotapi.WebAppInfo{URL: webAppURL}
 			webAppButton := tgbotapi.NewInlineKeyboardButtonWebApp("Запустить приложение", webAppInfo)

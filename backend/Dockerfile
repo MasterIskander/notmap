@@ -4,10 +4,9 @@ WORKDIR /backend
 
 COPY . .
 
-RUN go mod init backend
+RUN go mod init server
+RUN go get -u github.com/lib/pq
 RUN go mod tidy
-RUN go get -d -v ./...
-RUN go build -o /main
+RUN go build -o server .
 
-COPY wait-for-it.sh /wait-for-it.sh
-CMD ["/wait-for-it.sh", "db:5432", "/main"]
+CMD ["./server"]

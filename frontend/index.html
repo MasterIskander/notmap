@@ -3,29 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <title>Notmap</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        h1 {
-            font-size: 2em;
-            text-align: center;
-        }
-        h1 {
-            font-size: 3em;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
     <div id="app">
@@ -33,23 +13,18 @@
         <h2>Welcome to Notmap</h2>
     </div>
     <script>
-        function getQueryParams() {
-            const params = {};
-            const queryString = window.location.search.substring(1);
-            const regex = /([^&=]+)=([^&]*)/g;
-            let m;
-            while (m = regex.exec(queryString)) {
-                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+        async function fetchUsername() {
+            const params = new URLSearchParams(window.location.search);
+            const username = params.get('username');
+
+            if (username) {
+                const response = await fetch(`/api/username?telegram_user=${username}`);
+                const data = await response.json();
+                document.getElementById('username').textContent = data.username;
             }
-            return params;
         }
 
-        window.onload = function() {
-            const params = getQueryParams();
-            if (params.username) {
-                document.getElementById('username').textContent = params.username;
-            }
-        };
+        window.onload = fetchUsername;
     </script>
 </body>
 </html>

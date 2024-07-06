@@ -1,4 +1,3 @@
--- Создание роли и базы данных
 DO
 $$
 BEGIN
@@ -10,3 +9,11 @@ BEGIN
    END IF;
 END
 $$;
+
+\c notmap;
+
+-- Создание таблицы users
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    telegram_user VARCHAR(255) UNIQUE
+);
