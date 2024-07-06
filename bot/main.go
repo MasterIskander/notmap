@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
@@ -45,6 +46,20 @@ func main() {
 
 			if _, err := bot.Send(msg); err != nil {
 				log.Printf("Failed to send message: %v", err)
+			}
+		}
+
+		if update.CallbackQuery != nil {
+			webAppURL := "https://notmap.ru"
+			webApp := tgbotapi.NewInlineKeyboardButtonWebApp("Запустить приложение", tgbotapi.WebAppInfo{URL: webAppURL})
+			row := tgbotapi.NewInlineKeyboardRow(webApp)
+			markup := tgbotapi.NewInlineKeyboardMarkup(row)
+
+			editMsg := tgbotapi.NewEditMessageText(update.CallbackQuery.Message.Chat.ID, update.CallbackQuery.Message.MessageID, "Запуск приложения...")
+			editMsg.ReplyMarkup = &markup
+
+			if _, err := bot.Send(editMsg); err != nil {
+				log.Printf("Failed to edit message: %v", err)
 			}
 		}
 	}
