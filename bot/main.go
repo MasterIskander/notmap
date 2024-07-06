@@ -37,10 +37,10 @@ func main() {
 		if update.Message.Text == "/start" {
 			// Отправка сообщения с кнопкой для открытия веб-приложения
 			webAppURL := "https://notmap.ru"
-			webAppButton := tgbotapi.NewInlineKeyboardButtonData("Запустить приложение", webAppURL)
-			webAppButton.WebApp = &tgbotapi.WebAppInfo{URL: webAppURL}
-			
-			row := tgbotapi.NewInlineKeyboardRow(webAppButton)
+			webApp := tgbotapi.NewInlineKeyboardButtonData("Запустить приложение", "")
+			webApp.URL = webAppURL
+
+			row := tgbotapi.NewInlineKeyboardRow(webApp)
 			markup := tgbotapi.NewInlineKeyboardMarkup(row)
 
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Welcome to NotMap!\n\nA brief description of the game goes here.")
