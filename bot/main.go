@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v7"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 func main() {
@@ -37,8 +37,8 @@ func main() {
 		if update.Message.Text == "/start" {
 			// Отправка сообщения с кнопкой для открытия веб-приложения
 			webAppURL := "https://notmap.ru"
-			webAppInfo := tgbotapi.WebAppInfo{URL: webAppURL}
-			webAppButton := tgbotapi.NewInlineKeyboardButtonWebApp("Запустить приложение", webAppInfo)
+			
+			webAppButton := tgbotapi.NewInlineKeyboardButtonURL("Запустить приложение", webAppURL)
 
 			row := tgbotapi.NewInlineKeyboardRow(webAppButton)
 			markup := tgbotapi.NewInlineKeyboardMarkup(row)
