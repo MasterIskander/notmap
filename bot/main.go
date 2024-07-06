@@ -37,8 +37,10 @@ func main() {
 		if update.Message.Text == "/start" {
 			// Отправка сообщения с кнопкой для открытия веб-приложения
 			webAppURL := "https://notmap.ru"
-			webApp := tgbotapi.NewInlineKeyboardButtonData("Запустить приложение", webAppURL)
-			row := tgbotapi.NewInlineKeyboardRow(webApp)
+			webAppButton := tgbotapi.NewInlineKeyboardButtonData("Запустить приложение", webAppURL)
+			webAppButton.WebApp = &tgbotapi.WebAppInfo{URL: webAppURL}
+			
+			row := tgbotapi.NewInlineKeyboardRow(webAppButton)
 			markup := tgbotapi.NewInlineKeyboardMarkup(row)
 
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Welcome to NotMap!\n\nA brief description of the game goes here.")
@@ -46,20 +48,6 @@ func main() {
 
 			if _, err := bot.Send(msg); err != nil {
 				log.Printf("Failed to send message: %v", err)
-			}
-		}
-
-		if update.CallbackQuery != nil {
-			webAppURL := "https://notmap.ru"
-			webApp := tgbotapi.NewInlineKeyboardButtonWebApp("Запустить приложение", tgbotapi.WebAppInfo{URL: webAppURL})
-			row := tgbotapi.NewInlineKeyboardRow(webApp)
-			markup := tgbotapi.NewInlineKeyboardMarkup(row)
-
-			editMsg := tgbotapi.NewEditMessageText(update.CallbackQuery.Message.Chat.ID, update.CallbackQuery.Message.MessageID, "Запуск приложения...")
-			editMsg.ReplyMarkup = &markup
-
-			if _, err := bot.Send(editMsg); err != nil {
-				log.Printf("Failed to edit message: %v", err)
 			}
 		}
 	}
