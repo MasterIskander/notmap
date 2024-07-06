@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// Инициализация бота
-	botToken := os.Getenv("7277152508:AAGPJuTo-F1288IJYBFdLmxsmm5WB-y6XTk")
+	botToken := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if botToken == "" {
 		log.Fatal("TELEGRAM_BOT_TOKEN must be set")
 	}
