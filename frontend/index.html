@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <title>Notmap</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             background-color: #000;
@@ -17,12 +18,38 @@
             font-family: Arial, sans-serif;
         }
         h1 {
+            font-size: 2em;
+            text-align: center;
+        }
+        h1 {
             font-size: 3em;
             text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to Notmap</h1>
+    <div id="app">
+        <h1 id="username"></h1>
+        <h2>Welcome to Notmap</h2>
+    </div>
+    <script>
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+            return params;
+        }
+
+        window.onload = function() {
+            const params = getQueryParams();
+            if (params.username) {
+                document.getElementById('username').textContent = params.username;
+            }
+        };
+    </script>
 </body>
 </html>
