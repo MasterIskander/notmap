@@ -12,6 +12,10 @@ import (
 
 var db *sql.DB
 
+type Response struct {
+    Username string `json:"username"`
+}
+
 func main() {
     var err error
 
@@ -57,5 +61,7 @@ func usernameHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    fmt.Fprintf(w, "Username: %s\n", username)
+    response := Response{Username: username}
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(response)
 }
