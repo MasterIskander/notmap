@@ -7,8 +7,11 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PORT: ${POSTGRES_PORT:5432}
     volumes:
       - ./db:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
 
   frontend:
     image: nginx:latest
