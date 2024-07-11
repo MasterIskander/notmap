@@ -1,58 +1,61 @@
 package main
 
 import (
-	"database/sql"
-	"encoding/json"
-	"log"
-	"net/http"
-	"os"
+    "database/sql"
+    "fmt"
+    "log"
+    "net/http"
+    "os"
 
-	_ "github.com/lib/pq"
+    _ "github.com/lib/pq"
 )
 
 var db *sql.DB
 
 func main() {
-	dbHost := os.Getenv("DB_HOST")
+    var err error
+
+    dbHost := os.Getenv("DB_HOST")
     dbPort := os.Getenv("DB_PORT")
     dbUser := os.Getenv("DB_USER")
     dbPassword := os.Getenv("DB_PASSWORD")
     dbName := os.Getenv("DB_NAME")
 
-    connStr := "host=" + dbHost + " port=" + dbPort + " user=" + dbUser + " password=" + dbPassword + " dbname=" + dbName + " sslmode=disable"
-    db, err := sql.Open("postgres", connStr)
+    psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+        dbHost, dbPort, dbUser, dbPassword, dbName)
+
+    db, err = sql.Open("postgres", psqlInfo)
     if err != nil {
-        log.Fatal(err)
+        log.Fatalf("Error opening database: %q", err)
     }
+
     defer db.Close()
 
-	http.HandleFunc("/api/username", getUsername)
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-	log.Printf("Server starting on port %s...", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+    err = db.Ping()
+    if err != nil {
+        log.Fatalf("Error connecting to the database: %q", err)
+    }
+
+    log.Println("Successfully connected to the database")
+
+    http.HandleFunc("/api/username", usernameHandler)
+    log.Println("Server starting on port 8080...")
+    log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-func getUsername(w http.ResponseWriter, r *http.Request) {
-	telegramUser := r.URL.Query().Get("telegram_user")
-	if telegramUser == "" {
-		http.Error(w, "Missing telegram_user parameter", http.StatusBadRequest)
-		return
-	}
+func usernameHandler(w http.ResponseWriter, r *http.Request) {
+    telegramUser := r.URL.Query().Get("telegram_user")
+    if telegramUser == "" {
+        http.Error(w, "telegram_user is required", http.StatusBadRequest)
+        return
+    }
 
-	var username string
-	err := db.QueryRow("SELECT telegram_user FROM users WHERE telegram_user = $1", telegramUser).Scan(&username)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			http.Error(w, "User not found", http.StatusNotFound)
-			return
-		}
-		http.Error(w, "Failed to query user", http.StatusInternalServerError)
-		return
-	}
+    var username string
+    err := db.QueryRow("SELECT telegram_user FROM users WHERE telegram_user = $1", telegramUser).Scan(&username)
+    if err != nil {
+        http.Error(w, "User not found", http.StatusNotFound)
+        return
+    }
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"username": username})
+    fmt.Fprintf(w, "Username: %s\n", username)
 }
