@@ -11,9 +11,9 @@ body {
 h1 {
     font-size: 2em;
     text-align: center;
-    padding-bottom: 1em;
+    padding-bottom: 0.5em;
 }
-h1 {
-    font-size: 3em;
+h2 {
+    font-size: 2.5em;
     text-align: center;
 }
