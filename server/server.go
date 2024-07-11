@@ -13,16 +13,18 @@ import (
 var db *sql.DB
 
 func main() {
-	connStr := "user=notmap_user password=your_password dbname=notmap sslmode=disable"
-	var err error
-	db, err = sql.Open("postgres", connStr)
-	if err != nil {
-		log.Fatal(err)
-	}
+	dbHost := os.Getenv("DB_HOST")
+    dbPort := os.Getenv("DB_PORT")
+    dbUser := os.Getenv("DB_USER")
+    dbPassword := os.Getenv("DB_PASSWORD")
+    dbName := os.Getenv("DB_NAME")
 
-	if err = db.Ping(); err != nil {
-		log.Fatal(err)
-	}
+    connStr := "host=" + dbHost + " port=" + dbPort + " user=" + dbUser + " password=" + dbPassword + " dbname=" + dbName + " sslmode=disable"
+    db, err := sql.Open("postgres", connStr)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
 
 	http.HandleFunc("/api/username", getUsername)
 	port := os.Getenv("PORT")
