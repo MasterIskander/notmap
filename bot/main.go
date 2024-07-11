@@ -14,17 +14,23 @@ import (
 var db *sql.DB
 
 func main() {
+	dbHost := os.Getenv("DB_HOST")
+    dbPort := os.Getenv("DB_PORT")
+    dbUser := os.Getenv("DB_USER")
+    dbPassword := os.Getenv("DB_PASSWORD")
+    dbName := os.Getenv("DB_NAME")
+
+    connStr := "host=" + dbHost + " port=" + dbPort + " user=" + dbUser + " password=" + dbPassword + " dbname=" + dbName + " sslmode=disable"
+    db, err := sql.Open("postgres", connStr)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+
 	// Инициализация бота
 	botToken := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if botToken == "" {
 		log.Fatal("TELEGRAM_BOT_TOKEN must be set")
-	}
-
-	connStr := "user=notmap_user password=your_password dbname=notmap sslmode=disable"
-	var err error
-	db, err = sql.Open("postgres", connStr)
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	if err = db.Ping(); err != nil {
