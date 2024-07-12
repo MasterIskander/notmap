@@ -45,6 +45,7 @@ function startGame() {
 }
 
 window.onload = function() {
+    Telegram.WebApp.ready(); // Ensure the WebApp is ready
     applyTheme();
     loadUserData();
 };
