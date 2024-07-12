@@ -23,7 +23,7 @@ async function loadUserData() {
 
 
 function startGame() {
-    window.location.href = 'game.html';
+    window.location.href = 'tetris.html';
 }
 
 window.onload = function() {
