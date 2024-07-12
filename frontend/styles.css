@@ -1,16 +1,78 @@
 body {
-    background-color: #000;
-    color: #fff;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
     display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.header {
+    padding: 20px;
+    background-color: #6200ea;
+    color: white;
+    width: 100%;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
 }
-h1 {
-    text-align: center;
+
+.image-placeholder img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
 }
-h2 {
-    text-align: center;
+
+.play-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #03dac6;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+
+.play-button:hover {
+    background-color: #018786;
+}
+
+.score-point {
+    margin-top: 20px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    background-color: #6200ea;
+}
+
+.footer-button {
+    flex: 1;
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.footer-button.active {
+    background-color: #3700b3;
 }

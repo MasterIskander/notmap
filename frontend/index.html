@@ -3,28 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Game</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <title>Notmap</title>
 </head>
 <body>
-    <div id="app">
-        <h1 id="username"></h1>
-        <h2>Welcome to Notmaps</h2>
+    <div class="container">
+        <div class="header">
+            <h1 id="username">USERNAME</h1>
+        </div>
+        <div class="main-content">
+            <div class="image-placeholder">
+                <img id="user-image" src="path_to_image" alt="User Image">
+            </div>
+            <button class="play-button" onclick="startGame()">PLAY</button>
+            <div class="score-point">
+                <p>SCORE POINT</p>
+                <p id="score">0</p>
+            </div>
+        </div>
+        <div class="footer">
+            <button class="footer-button">HOME</button>
+            <button class="footer-button active">GAME</button>
+            <button class="footer-button">QUEST</button>
+            <button class="footer-button">ITEMS</button>
+        </div>
     </div>
-    <script>
-        async function fetchUsername() {
-            const params = new URLSearchParams(window.location.search);
-            const username = params.get('username');
-
-            if (username) {
-                const response = await fetch(`/api/username?telegram_user=${username}`);
-                const data = await response.json();
-                document.getElementById('username').textContent = data.username;
-            }
-        }
-
-        window.onload = fetchUsername;
-    </script>
+    <script src="script.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </body>
 </html>
