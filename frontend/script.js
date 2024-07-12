@@ -1,3 +1,35 @@
+function applyTheme() {
+    const theme = Telegram.WebApp.themeParams;
+
+    if (theme.bg_color) {
+        document.documentElement.style.setProperty('--bg-color', `#${theme.bg_color}`);
+    }
+    if (theme.text_color) {
+        document.documentElement.style.setProperty('--text-color', `#${theme.text_color}`);
+    }
+    if (theme.button_color) {
+        document.documentElement.style.setProperty('--button-color', `#${theme.button_color}`);
+    }
+    if (theme.button_hover_color) {
+        document.documentElement.style.setProperty('--button-hover-color', `#${theme.button_hover_color}`);
+    }
+    if (theme.button_active_color) {
+        document.documentElement.style.setProperty('--button-active-color', `#${theme.button_active_color}`);
+    }
+    if (theme.footer_bg_color) {
+        document.documentElement.style.setProperty('--footer-bg-color', `#${theme.footer_bg_color}`);
+    }
+    if (theme.footer_text_color) {
+        document.documentElement.style.setProperty('--footer-text-color', `#${theme.footer_text_color}`);
+    }
+    if (theme.footer_active_bg_color) {
+        document.documentElement.style.setProperty('--footer-active-bg-color', `#${theme.footer_active_bg_color}`);
+    }
+    if (theme.footer_active_text_color) {
+        document.documentElement.style.setProperty('--footer-active-text-color', `#${theme.footer_active_text_color}`);
+    }
+}
+
 function startGame() {
     // Перенаправляем пользователя на страницу игры
     window.location.href = 'game.html'; // Предполагается, что это будет страница игры
@@ -13,5 +45,8 @@ async function loadUserData() {
     document.getElementById('score').textContent = data.score || 0;
 }
 
-// Загрузка данных пользователя при загрузке страницы
-window.onload = loadUserData;
+// Загрузка данных пользователя и темы при загрузке страницы
+window.onload = function() {
+    applyTheme();
+    loadUserData();
+};
