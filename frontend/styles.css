@@ -31,7 +31,6 @@ body {
 }
 
 #welcome-image {
-    width: 100%;
     max-width: 400px;
     margin: 20px 0;
 }
@@ -52,8 +51,8 @@ body {
 }
 
 .image-placeholder img {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     object-fit: cover;
 }
