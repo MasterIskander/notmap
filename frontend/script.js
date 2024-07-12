@@ -37,7 +37,7 @@ function startGame() {
 
 // Функция для загрузки данных пользователя из базы данных
 async function loadUserData() {
-    const response = await fetch('/api/username?telegram_user=username');
+    const response = await fetch('/api/username?telegram_user=${username}');
     const data = await response.json();
 
     document.getElementById('username').textContent = data.username;

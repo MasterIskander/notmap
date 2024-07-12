@@ -29,5 +29,33 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script>
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+        async function fetchUsername() {
+            const params = new URLSearchParams(window.location.search);
+            const username = params.get('username');
+
+            if (username) {
+                const response = await fetch(`/api/username?telegram_user=${username}`);
+                const data = await response.json();
+                document.getElementById('username').textContent = data.username;
+            }
+            return params;
+        }
+
+        window.onload = function() {
+            const params = getQueryParams();
+            if (params.username) {
+                document.getElementById('username').textContent = params.username;
+            }
+        };
+        window.onload = fetchUsername;
+    </script>
 </body>
 </html>
