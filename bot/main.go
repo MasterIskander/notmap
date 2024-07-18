@@ -59,10 +59,21 @@ func main() {
 
 		if update.Message.Text == "/start" {
 			username := update.Message.From.UserName
-			_, err := db.Exec("INSERT INTO users (telegram_user) VALUES ($1) ON CONFLICT (telegram_user) DO NOTHING", username)
+			var exists bool
+			err := db.QueryRow("SELECT EXISTS(SELECT 1 FROM users WHERE telegram_user=$1)", username).Scan(&exists)
 			if err != nil {
-				log.Printf("Failed to insert user: %v", err)
+				log.Printf("Failed to check user existence: %v", err)
 			}
+
+			// Если пользователя нет, добавляем его
+			if !exists {
+				_, err = db.Exec("INSERT INTO users (telegram_user) VALUES ($1) ON CONFLICT (telegram_user) DO NOTHING", username)
+				if err != nil {
+					log.Printf("Failed to insert user: %v", err)
+				}
+			}
+
+			
 
 			webAppURL := fmt.Sprintf("https://notmap.ru?username=%s", url.QueryEscape(username))
 			webAppInfo := tgbotapi.WebAppInfo{URL: webAppURL}
