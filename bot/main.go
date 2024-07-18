@@ -67,7 +67,7 @@ func main() {
 
 			// Если пользователя нет, добавляем его
 			if !exists {
-				_, err = db.Exec("INSERT INTO users (telegram_user) VALUES ($1) ON CONFLICT (telegram_user) DO NOTHING", username)
+				_, err = db.Exec("INSERT INTO users (telegram_user) VALUES ($1)", username)
 				if err != nil {
 					log.Printf("Failed to insert user: %v", err)
 				}
