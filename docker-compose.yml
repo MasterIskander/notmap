@@ -5,12 +5,12 @@ services:
     image: postgres:13
     environment:
       POSTGRES_DB: ${DB_NAME}
-      # POSTGRES_USER: ${DB_USER}
+      POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db:/docker-entrypoint-initdb.d
 
   frontend:
     image: nginx:latest
