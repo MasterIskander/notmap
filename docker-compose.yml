@@ -23,7 +23,7 @@ services:
     build:
       context: ./bot
     environment:
-      TELEGRAM_BOT_TOKEN: "7277152508:AAGPJuTo-F1288IJYBFdLmxsmm5WB-y6XTk"
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       DB_USER: ${DB_USER}
