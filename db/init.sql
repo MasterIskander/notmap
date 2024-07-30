@@ -16,5 +16,4 @@ $$;
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     telegram_user VARCHAR(255) NOT NULL UNIQUE
-    ton_address TEXT
 );

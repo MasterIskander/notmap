@@ -3,7 +3,7 @@ package main
 import (
     "database/sql"
     "encoding/json"
-    "fmt"
+	"fmt"
     "log"
     "net/http"
     "os"
@@ -12,32 +12,30 @@ import (
 )
 
 type User struct {
-    ID           int    `json:"id"`
-    TelegramUser string `json:"telegram_user"`
-    TonAddress   string `json:"ton_address"`
+    ID            int    `json:"id"`
+    TelegramUser  string `json:"telegram_user"`
 }
 
 var db *sql.DB
 
 func main() {
     var err error
-    dbHost := os.Getenv("DB_HOST")
+	dbHost := os.Getenv("DB_HOST")
     dbPort := os.Getenv("DB_PORT")
     dbUser := os.Getenv("DB_USER")
     dbPassword := os.Getenv("DB_PASSWORD")
     dbName := os.Getenv("DB_NAME")
 
-    connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-        dbHost, dbPort, dbUser, dbPassword, dbName)
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+	dbHost, dbPort, dbUser, dbPassword, dbName)
 
-    db, err = sql.Open("postgres", connStr)
-    if err != nil {
-        log.Fatal(err)
-    }
+	db, err = sql.Open("postgres", connStr)
+	if err != nil {
+		log.Fatal(err)
+	}
 
     http.HandleFunc("/api/username", getUsername)
-    http.HandleFunc("/api/connect_ton_wallet", connectTonWallet)
-    log.Println("Server starting on port 8080...")
+	log.Println("Server starting on port 8080...")
     log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
@@ -49,7 +47,7 @@ func getUsername(w http.ResponseWriter, r *http.Request) {
     }
 
     var user User
-    err := db.QueryRow("SELECT id, telegram_user, ton_address FROM users WHERE telegram_user = $1", telegramUser).Scan(&user.ID, &user.TelegramUser, &user.TonAddress)
+    err := db.QueryRow("SELECT id, telegram_user FROM users WHERE telegram_user = $1", telegramUser).Scan(&user.ID, &user.TelegramUser)
     if err != nil {
         if err == sql.ErrNoRows {
             http.Error(w, "User not found", http.StatusNotFound)
@@ -61,25 +59,4 @@ func getUsername(w http.ResponseWriter, r *http.Request) {
 
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(user)
-}
-
-func connectTonWallet(w http.ResponseWriter, r *http.Request) {
-    var requestData struct {
-        TelegramUser string `json:"telegram_user"`
-        TonAddress   string `json:"ton_address"`
-    }
-
-    if err := json.NewDecoder(r.Body).Decode(&requestData); err != nil {
-        http.Error(w, "Invalid request", http.StatusBadRequest)
-        return
-    }
-
-    _, err := db.Exec("UPDATE users SET ton_address = $1 WHERE telegram_user = $2", requestData.TonAddress, requestData.TelegramUser)
-    if err != nil {
-        http.Error(w, "Failed to update TON address", http.StatusInternalServerError)
-        return
-    }
-
-    w.WriteHeader(http.StatusOK)
-    json.NewEncoder(w).Encode(map[string]bool{"success": true})
 }
