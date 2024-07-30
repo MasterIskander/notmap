@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NOTMAP</title>
     <link rel="stylesheet" href="styles.css?ver0.1">
-    <script src="https://unpkg.com/@tonconnect/ui@0.0.9/dist/tonconnect-ui.min.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -24,7 +24,10 @@
                 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
                     manifestUrl: 'https://notmap.ru/tonconnect-manifest.json',
                     buttonRootId: 'connect-ton-wallet-button'
-                });
+                })
+                tonConnectUI.uiOptions = {
+                    twaReturnUrl: 'https://t.me/notmaps_bot'
+                };
             </script>
 
             <div class="score-point">
