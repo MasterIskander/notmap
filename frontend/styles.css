@@ -5,7 +5,6 @@
     --tg-theme-button-text-color: var(--button_text);
 }
 
-
 body {
     background-color: var(--tg-theme-bg-color);
     color: var(--tg-theme-text-color);
@@ -38,6 +37,11 @@ body {
     width: 100%;
 }
 
+#ton-address {
+    font-size: 14px;
+    color: var(--tg-theme-text-color);
+}
+
 .main-content {
     flex: 1;
     display: flex;
@@ -53,7 +57,7 @@ body {
     object-fit: cover;
 }
 
-.play-button {
+.connect-button {
     background-color: var(--tg-theme-button-bg-color);
     color: var(--tg-theme-button-text-color);
     margin-top: 20px;
@@ -66,11 +70,11 @@ body {
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.play-button:hover {
+.connect-button:hover {
     background-color: var(--tg-theme-button-bg-color-hover, #007BFF);
 }
 
-.play-button:active {
+.connect-button:active {
     background-color: var(--tg-theme-button-bg-color-hover, #007BFF);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
 }
