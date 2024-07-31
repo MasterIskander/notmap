@@ -8,9 +8,6 @@ function applyTheme() {
     }
 }
 
-window.onload = applyTheme;
-
-
 async function loadUserData() {
     const telegramUser = Telegram.WebApp.initDataUnsafe.user.username;
     const response = await fetch(`/api/username?telegram_user=${telegramUser}`);
@@ -21,13 +18,60 @@ async function loadUserData() {
     document.getElementById('score').textContent = data.score || 0;
 }
 
+async function connectTonWallet() {
+    const manifestUrl = 'https://notmap.ru/tonconnect-manifest.json';
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+        manifestUrl,
+        buttonRootId: 'connect-ton-wallet-button'
+    });
+    
+    tonConnectUI.uiOptions = {
+        twaReturnUrl: 'https://t.me/notmaps_bot'
+    };
 
-function startGame() {
-    window.location.href = 'tetris.html';
+    tonConnectUI.connectWallet()
+        .then(session => {
+            const address = session.account.address;
+            
+            const telegramUser = Telegram.WebApp.initDataUnsafe.user.username;
+            fetch(`/api/connect_ton_wallet`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ telegram_user: telegramUser, ton_address: address })
+            })
+            .then(response => {
+                if (response.status === 409) {
+                    alert('TON address already in use by another user');
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('ton-address').textContent = maskTonAddress(address);
+                } else {
+                    alert('Failed to connect wallet');
+                }
+            })
+            .catch(error => {
+                console.error('Failed to connect wallet:', error);
+            });
+        })
+        .catch(error => {
+            console.error('Failed to connect wallet:', error);
+        });
+}
+
+function maskTonAddress(address) {
+    return address.substring(0, 3) + '...' + address.substring(address.length - 3);
 }
 
 window.onload = function() {
     Telegram.WebApp.ready(); // Ensure the WebApp is ready
     applyTheme();
     loadUserData();
+    document.getElementById('connect-ton-wallet-button').addEventListener('click', connectTonWallet);
 };
+
